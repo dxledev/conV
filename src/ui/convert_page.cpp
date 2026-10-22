@@ -175,7 +175,7 @@ void ConvertPage::buildInterface() {
     auto *header = new QHBoxLayout;
     auto *titles = new QVBoxLayout;
     titles->setSpacing(4);
-    auto *title = new QLabel(category_.title.toUpper() + " // CONVERTER");
+    auto *title = new QLabel(category_.title.toUpper() + " CONVERTER");
     QFont titleFont = uiFont(19, true);
     titleFont.setLetterSpacing(QFont::AbsoluteSpacing, 2);
     title->setFont(titleFont);
