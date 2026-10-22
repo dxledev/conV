@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=conV
+GenericName=File converter
+Comment=Convert photos, video, audio and documents
+Exec=conV %F
+Icon=io.github.conv
+Terminal=false
+Categories=Utility;AudioVideo;Graphics;
+Keywords=convert;converter;image;video;audio;document;format;
+StartupWMClass=io.github.conv
+MimeType=image/png;image/jpeg;image/webp;video/mp4;video/x-matroska;audio/mpeg;audio/flac;
