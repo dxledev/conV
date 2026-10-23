@@ -8,7 +8,6 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Core Gui Widgets DBus)
 
 add_library(conv_core
     src/core/converter.cpp
-    src/core/icon.cpp
     src/core/storage.cpp
     src/core/theme.cpp
     src/core/theme_source.cpp

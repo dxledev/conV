@@ -83,7 +83,7 @@ install_files() {
     local temporary
     temporary="$(/usr/bin/mktemp "${desktop%/*}/.conV-desktop.XXXXXX")"
     /usr/bin/awk -v executable="$install_prefix/bin/conV" -v config="$config_directory" \
-        '/^Exec=/ { print "Exec=\"" executable "\" --config-dir \"" config "\" %F"; next } /^Icon=/ { print "Icon=" config "/icon.svg"; next } { print }' \
+        '/^Exec=/ { print "Exec=\"" executable "\" --config-dir \"" config "\" %F"; next } { print }' \
         "$project_directory/assets/$desktop_id.desktop" > "$temporary"
     /usr/bin/chmod 644 -- "$temporary"
     /usr/bin/mv -T -- "$temporary" "$desktop"
@@ -94,20 +94,20 @@ install_files() {
 }
 
 register_app() {
-    local entry="$desktop_id.desktop|$config_directory/icon.svg|conV"
-    if [[ -f "$apps_list" ]] && /usr/bin/awk -F '|' -v id="$desktop_id.desktop" \
-        '$1 == id { found = 1 } END { exit !found }' "$apps_list"; then
-        return
-    fi
+    local icon="$install_prefix/share/icons/hicolor/scalable/apps/$desktop_id.svg"
+    local entry="$desktop_id.desktop|$icon|conV"
+    local temporary
     /usr/bin/mkdir -p -- "${apps_list%/*}"
     backup_file "$apps_list"
-    local temporary
     temporary="$(/usr/bin/mktemp "${apps_list%/*}/.conV-apps.XXXXXX")"
     if [[ -f "$apps_list" ]]; then
-        /usr/bin/awk '{ print }' "$apps_list" > "$temporary"
+        /usr/bin/awk -F '|' -v OFS='|' -v id="$desktop_id.desktop" -v icon="$icon" \
+            '$1 == id { if (!found) { $2 = icon; print; found = 1 } next } { print } END { if (!found) print id, icon, "conV" }' \
+            "$apps_list" > "$temporary"
         /usr/bin/chmod --reference="$apps_list" "$temporary"
+    else
+        printf '%s\n' "$entry" > "$temporary"
     fi
-    printf '%s\n' "$entry" >> "$temporary"
     /usr/bin/mv -T -- "$temporary" "$apps_list"
 }
 

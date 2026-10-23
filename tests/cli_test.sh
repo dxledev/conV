@@ -11,7 +11,6 @@ help="$(run --help)"
 
 run theme preset amber >/dev/null
 run theme show | grep -q '"accent": "#ffb000"'
-[[ -f "$dir/icon.svg" ]] && grep -q '#ffb000' "$dir/icon.svg"
 
 before="$(cat "$dir/theme.json")"
 run theme set 'accent=#112233' --dry-run | grep -q '#112233'

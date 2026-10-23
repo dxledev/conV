@@ -3,10 +3,9 @@
  * @brief Command-line parsing and theme management subcommands.
  *
  * Theme mutations are validated before writing. --dry-run prints the proposed
- * JSON and touches nothing. A written theme also refreshes the generated icon.
+ * JSON and touches nothing.
  */
 #include "cli.h"
-#include "core/icon.h"
 #include "core/storage.h"
 #include "core/theme.h"
 #include "core/theme_source.h"
@@ -145,8 +144,6 @@ int runThemeCommand(const Options &options) {
         return 0;
     }
     writeJson(destination, next.toJson());
-    if (destination == path)
-        writeTextIfChanged(options.configDirectory + "/icon.svg", iconSvg(next));
     output << destination << '\n';
     return 0;
 }

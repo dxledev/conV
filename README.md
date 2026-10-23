@@ -56,7 +56,7 @@ Add `--dry-run` to any change to preview the JSON without writing. `--config-dir
 
 **Following a palette.** `theme follow PATH` accepts a QML color file (`"#RRGGBB"`, `"#AARRGGBB"` or `Qt.rgba(...)` properties), a JSON palette, or a directory containing `Colors.qml`, `palette.json`, or `colors.json`. The path is remembered as written, so a symlink that is later pointed somewhere else, or a file that is rewritten in place or replaced atomically, is picked up automatically and `theme.json` is updated to match.
 
-All icons are vector shapes painted in the theme's colors; the launcher icon (`~/.config/conV/icon.svg`) is regenerated from the theme too. The UI is flat: solid colors, hard edges, chamfered corners, no gradients.
+All icons are vector shapes painted in the theme's colors; the launcher icon is a fixed colored SVG. The UI is flat: solid colors, hard edges, chamfered corners, no gradients.
 
 ## Install
 

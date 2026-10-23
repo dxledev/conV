@@ -1,5 +1,4 @@
 #include "core/converter.h"
-#include "core/icon.h"
 #include "core/storage.h"
 #include "core/theme.h"
 #include "core/theme_source.h"
@@ -94,12 +93,6 @@ private slots:
         const auto theme = followTheme(dir.path());
         QCOMPARE(theme.color("accent").name(), QString("#33aa77"));
         QCOMPARE(theme.sourcePath, dir.path());
-    }
-
-    void iconUsesThemeColors() {
-        const auto svg = QString::fromUtf8(iconSvg(presetTheme("amber")));
-        QVERIFY(svg.contains("#ffb000"));
-        QVERIFY(!svg.contains("Gradient"));
     }
 
     void outputNeverOverwritesInput() {

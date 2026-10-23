@@ -7,7 +7,6 @@
  */
 #include "window.h"
 #include "convert_page.h"
-#include "core/icon.h"
 #include "core/storage.h"
 #include "modal.h"
 #include "widgets.h"
@@ -65,6 +64,7 @@ Window::Window(QString configDirectory, Theme theme, const QStringList &files, Q
     : QMainWindow(parent), configDirectory_(std::move(configDirectory)),
       themeWatcher_(new ThemeWatcher(configDirectory_ + "/theme.json", std::move(theme), this)) {
     setWindowTitle("conV");
+    setWindowIcon(QIcon::fromTheme("io.github.conv"));
     setObjectName("convWindow");
     setAttribute(Qt::WA_TranslucentBackground);
     setMinimumSize(780, 620);
@@ -214,26 +214,6 @@ void Window::applyTheme() {
     for (auto *widget : findChildren<QWidget *>())
         widget->update();
     update();
-    try {
-        const auto svg = iconSvg(theme);
-        writeTextIfChanged(configDirectory_ + "/icon.svg", svg);
-        QPixmap pixmap(128, 128);
-        pixmap.fill(Qt::transparent);
-        QPainter painter(&pixmap);
-        painter.setRenderHint(QPainter::Antialiasing);
-        const QPainterPath shape = chamfer(QRectF(6, 6, 116, 116), 16);
-        painter.fillPath(shape, opaque(theme.color("background")));
-        painter.setPen(QPen(theme.color("accent"), 6, Qt::SolidLine, Qt::SquareCap, Qt::MiterJoin));
-        painter.drawPath(shape);
-        painter.setPen(QPen(theme.color("text"), 10, Qt::SolidLine, Qt::SquareCap, Qt::MiterJoin));
-        painter.drawPolyline(QPolygonF{{30, 44}, {52, 64}, {30, 84}});
-        painter.setPen(QPen(theme.color("accent"), 10, Qt::SolidLine, Qt::SquareCap, Qt::MiterJoin));
-        painter.drawPolyline(QPolygonF{{62, 44}, {84, 64}, {62, 84}});
-        painter.fillRect(QRectF(30, 98, 68, 8), theme.color("accent"));
-        painter.end();
-        setWindowIcon(QIcon(pixmap));
-    } catch (const std::exception &) {
-    }
 }
 
 void Window::saveSettings() {
